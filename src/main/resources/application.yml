@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: ai-stylist-backend
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+# FastAPI Configuration
+fastapi:
+  url: ${FASTAPI_URL:http://localhost:8000}
+  internal-api-key: ${INTERNAL_API_KEY}
+
+# CORS Configuration
+cors:
+  allowed-origins: ${CORS_ORIGINS:http://localhost:3000}
+
+# File Upload
+file:
+  upload-dir: ${UPLOAD_DIR:./uploads}
+
+# Logging
+logging:
+  level:
+    com.aistylist: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
