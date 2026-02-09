@@ -1,0 +1,20 @@
+.env
+.env local
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+node_modules/
+__pycache__/
+*.pyc
+target/
+build/
+dist/
+*.jar
+*.war
+*.log
+logs/
+*.db
+*.sqlite
+docker-compose.override.yml
