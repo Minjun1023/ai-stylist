@@ -17,7 +17,7 @@ services:
     networks:
       - ai-stylist-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,7 +31,7 @@ services:
     networks:
       - ai-stylist-network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -40,7 +40,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: docker-compose.dev.yml
+      dockerfile: Dockerfile
     container_name: ai-stylist-backend
     environment:
       SPRING_PROFILES_ACTIVE: dev
@@ -64,7 +64,7 @@ services:
   ai-service:
     build:
       context: ./ai-service
-      dockerfile: docker-compose.dev.yml
+      dockerfile: Dockerfile
     container_name: ai-stylist-ai
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
@@ -85,7 +85,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: docker-compose.dev.yml
+      dockerfile: Dockerfile
       target: development
     container_name: ai-stylist-frontend
     environment:
