@@ -18,3 +18,4 @@ logs/
 *.db
 *.sqlite
 docker-compose.override.yml
+.gradle/
