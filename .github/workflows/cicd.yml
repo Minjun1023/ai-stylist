@@ -18,14 +18,14 @@ jobs:
             context: ./backend
             dockerfile: ./backend/Dockerfile
             image: ai-stylist-backend
-          - service: frontend
-            context: ./frontend
-            dockerfile: ./frontend/Dockerfile
-            image: ai-stylist-frontend
-          - service: ai-service
-            context: ./ai-service
-            dockerfile: ./ai-service/Dockerfile
-            image: ai-stylist-ai-service
+          # - service: frontend
+          #   context: ./frontend
+          #   dockerfile: ./frontend/Dockerfile
+          #   image: ai-stylist-frontend
+          # - service: ai-service
+          #   context: ./ai-service
+          #   dockerfile: ./ai-service/Dockerfile
+          #   image: ai-stylist-ai-service
 
     steps:
       - name: Checkout code
