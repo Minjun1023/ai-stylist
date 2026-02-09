@@ -21,20 +21,20 @@ public class ChatSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 채팅 세션 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // 사용자
 
     @Column
-    private String title;
+    private String title; // 채팅 제목
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<ChatMessage> messages = new ArrayList<>();
+    private List<ChatMessage> messages = new ArrayList<>(); // 채팅 메시지
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 생성 시간
 }

@@ -20,31 +20,31 @@ public class PersonalColorResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 퍼스널 컬러 결과 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // 사용자
 
     @Column(name = "color_type", nullable = false, length = 50)
-    private String colorType;
+    private String colorType; // 퍼스널 컬러 타입
 
     @Column
-    private Float confidence;
+    private Float confidence; // 퍼스널 컬러 신뢰도
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    private DiagnosisMethod method;
+    private DiagnosisMethod method; // 퍼스널 컬러 진단 방법
 
     @Column(name = "image_url")
-    private String imageUrl;
+    private String imageUrl; // 퍼스널 컬러 진단 이미지 URL
 
     @Column(name = "survey_data", columnDefinition = "jsonb")
-    private String surveyData;
+    private String surveyData; // 퍼스널 컬러 진단 설문 데이터
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 퍼스널 컬러 진단 생성 시간
 
     public enum DiagnosisMethod {
         SURVEY, IMAGE, HYBRID

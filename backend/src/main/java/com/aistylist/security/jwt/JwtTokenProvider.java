@@ -17,12 +17,12 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
-    private String jwtSecret;
+    private String jwtSecret; // JWT 시크릿 키
 
     @Value("${jwt.expiration}")
-    private long jwtExpiration;
+    private long jwtExpiration; // JWT 만료 시간
 
-    private SecretKey key;
+    private SecretKey key; // JWT 시크릿 키
 
     // 서버 실행 시 자동 키 생성
     @PostConstruct
@@ -30,6 +30,7 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
+    // JWT 토큰 생성
     public String generateToken(Authentication authentication) {
         String email = authentication.getName();
         Date now = new Date();
@@ -43,6 +44,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // JWT 토큰에서 이메일 추출
     public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(key)
@@ -53,6 +55,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
+    // JWT 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
