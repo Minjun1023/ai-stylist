@@ -1,0 +1,14 @@
+// Root project configuration
+plugins {
+    id 'java'
+}
+
+// 루트 프로젝트는 소스 코드를 포함하지 않음
+// 모든 소스 코드는 서브 프로젝트(backend)에 있음
+subprojects {
+    apply plugin: 'java'
+    
+    repositories {
+        mavenCentral()
+    }
+}
