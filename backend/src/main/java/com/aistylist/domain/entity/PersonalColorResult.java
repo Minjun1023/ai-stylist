@@ -46,6 +46,7 @@ public class PersonalColorResult {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt; // 퍼스널 컬러 진단 생성 시간
 
+    // 진단 방법
     public enum DiagnosisMethod {
         SURVEY, IMAGE, HYBRID
     }

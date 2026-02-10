@@ -36,6 +36,7 @@ public class ChatMessage {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt; // 생성 시간
 
+    // 메시지 역할
     public enum Role {
         USER,
         ASSISTANT,

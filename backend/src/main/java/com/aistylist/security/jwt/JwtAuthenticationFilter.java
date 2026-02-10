@@ -36,22 +36,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
         try {
+            // JWT 토큰 추출
             String jwt = getJwtFromRequest(request);
 
+            // JWT 토큰이 유효한 경우
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 String email = tokenProvider.getEmailFromToken(jwt);
 
+                // 사용자 정보 조회
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+                // 인증 객체 생성
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
+
+                // 인증 객체 설정
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+                // 인증 객체 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            // JWT 토큰이 유효하지 않은 경우
         } catch (Exception ex) {
-            log.error("Could not set user authentication in security context", ex);
+            log.error("사용자 설정 인증 오류", ex);
         }
 
+        // 다음 필터 실행
         filterChain.doFilter(request, response);
     }
 
@@ -59,10 +69,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * JWT 토큰 추출
      */
     private String getJwtFromRequest(HttpServletRequest request) {
+        // Authorization 헤더 추출
         String bearerToken = request.getHeader("Authorization");
+
+        // Bearer 토큰 추출
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
+
+        // JWT 토큰이 없는 경우
         return null;
     }
 }

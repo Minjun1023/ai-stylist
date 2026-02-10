@@ -57,28 +57,39 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // CSRF 보안 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
+                // CORS 설정
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // 세션 관리
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // HTTP 요청 인터셉트
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/health").permitAll()
                         .anyRequest().authenticated())
+                // 인증 제공자
                 .authenticationProvider(authenticationProvider())
+                // JWT 인증 필터 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+        // HTTP 요청 인터셉트
         return http.build();
     }
 
     // CORS 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        // CORS 설정
         CorsConfiguration configuration = new CorsConfiguration();
+        // 허가된 원본 설정
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        // 허가된 HTTP 메소드 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // 허가된 HTTP 헤더 설정
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
+        // CORS 설정
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
