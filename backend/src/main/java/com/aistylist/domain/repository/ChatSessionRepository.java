@@ -1,4 +1,4 @@
-package com.aistylist.domain.respository;
+package com.aistylist.domain.repository;
 
 import com.aistylist.domain.entity.ChatSession;
 import org.springframework.data.jpa.repository.JpaRepository;
