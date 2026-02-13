@@ -1,7 +1,8 @@
 package com.aistylist.security;
 
 import com.aistylist.domain.entity.User;
-import com.aistylist.domain.respository.UserRepository;
+import com.aistylist.domain.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
