@@ -1,10 +1,12 @@
-FROM eclipse-temurin:17-jdk-jammy
-
+FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
+COPY build.gradle ./
+COPY src ./src
+RUN gradle build -x test --no-daemon
 
-COPY . .
 
-RUN chmod +x ./gradlew
-RUN ./gradlew build -x test
-
-CMD ["java", "-jar", "build/libs/ai-stylist-0.0.1-SNAPSHOT.jar"]
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
