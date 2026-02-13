@@ -1,0 +1,32 @@
+# FastAPI
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+pgvector==0.2.4
+
+# OpenAI & LangChain
+openai==1.10.0
+langchain==0.1.4
+langchain-openai==0.0.3
+langchain-community==0.0.16
+
+# Vector Store
+tiktoken==0.5.2
+
+# Image Processing
+pillow==10.2.0
+numpy==1.26.3
+
+# Validation & Settings
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# HTTP Client
+httpx==0.26.0
+
+# Utilities
+python-dotenv==1.0.0
