@@ -1,13 +1,13 @@
 spring:
   application:
     name: ai-stylist-backend
-
+  
   datasource:
-    url: ${DATABASE_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ai_stylist}
+    username: ${POSTGRES_USER:stylist}
+    password: ${POSTGRES_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
-
+  
   jpa:
     hibernate:
       ddl-auto: validate
@@ -16,12 +16,12 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
+  
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-
+  
   servlet:
     multipart:
       max-file-size: 10MB
@@ -32,7 +32,7 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:86400000}
 
-# FastAPI Configuration
+# FastAPI Configuration  
 fastapi:
   url: ${FASTAPI_URL:http://localhost:8000}
   internal-api-key: ${INTERNAL_API_KEY}
@@ -50,4 +50,21 @@ logging:
   level:
     com.aistylist: DEBUG
     org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
+
+---
+# Docker Profile
+spring:
+  config:
+    activate:
+      on-profile: docker
+  
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+logging:
+  level:
+    com.aistylist: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
