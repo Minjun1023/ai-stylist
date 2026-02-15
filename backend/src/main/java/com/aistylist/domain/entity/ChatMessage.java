@@ -1,5 +1,6 @@
 package com.aistylist.domain.entity;
 
+import com.aistylist.domain.converter.ChatRoleConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,7 +27,7 @@ public class ChatMessage {
     private ChatSession session; // 채팅 세션
 
     @Column(nullable = false, length = 20)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ChatRoleConverter.class)
     private Role role; // 메시지 역할
 
     @Column(nullable = false, columnDefinition = "TEXT")

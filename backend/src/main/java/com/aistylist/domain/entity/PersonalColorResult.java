@@ -1,7 +1,9 @@
 package com.aistylist.domain.entity;
 
+import com.aistylist.domain.converter.DiagnosisMethodConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.annotation.CreatedDate;
 import jakarta.persistence.Id;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,13 +35,14 @@ public class PersonalColorResult {
     private Float confidence; // 퍼스널 컬러 신뢰도
 
     @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = DiagnosisMethodConverter.class)
     private DiagnosisMethod method; // 퍼스널 컬러 진단 방법
 
     @Column(name = "image_url")
     private String imageUrl; // 퍼스널 컬러 진단 이미지 URL
 
     @Column(name = "survey_data", columnDefinition = "jsonb")
+    @ColumnTransformer(write = "?::jsonb")
     private String surveyData; // 퍼스널 컬러 진단 설문 데이터
 
     @CreatedDate
