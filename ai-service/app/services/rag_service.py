@@ -24,7 +24,7 @@ def search_similar_documents(
         personal_color,
         occasion,
         metadata,
-        1 - (embedding <=> :embedding::vector) as similarity
+        1 - (embedding <=> CAST(:embedding AS vector)) as similarity
     FROM fashion_knowledge
     WHERE 1=1
     """
@@ -36,7 +36,7 @@ def search_similar_documents(
         params["personal_color"] = personal_color   # 퍼스널 컬러
     # 유사도 순 정렬
     sql += """
-    ORDER BY embedding <=> :embedding::vector
+    ORDER BY embedding <=> CAST(:embedding AS vector)
     LIMIT :limit
     """
     params["limit"] = limit # 검색 결과 수

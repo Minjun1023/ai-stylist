@@ -32,7 +32,7 @@ async def create_embedding(
     # DB 저장
     sql = """
     INSERT INTO fashion_knowledge (content, embedding, personal_color, occasion, metadata)
-    VALUES (:content, :embedding::vector, :personal_color, :occasion, :metadata::jsonb)
+    VALUES (:content, CAST(:embedding AS vector), :personal_color, :occasion, CAST(:metadata AS jsonb))
     RETURNING id
     """
     
