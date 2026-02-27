@@ -1,0 +1,5 @@
+version: 1
+interface:
+  display_name: AI Stylist Frontend Brand
+  short_description: Apply AI Stylist color/layout design guardrails
+  default_prompt: Keep frontend design aligned with AI Stylist brand tokens and mobile dashboard layout.
