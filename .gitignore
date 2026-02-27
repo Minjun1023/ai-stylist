@@ -19,3 +19,5 @@ logs/
 *.sqlite
 docker-compose.override.yml
 .gradle/
+uploads
+backend/bin/

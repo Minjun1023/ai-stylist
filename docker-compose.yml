@@ -10,10 +10,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/01-init-db.sql
+      - ./db/migrations/create-items-table-and-seed-100.sql:/docker-entrypoint-initdb.d/02-items.sql
     networks:
       - ai-stylist-network
     healthcheck:
@@ -51,11 +52,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - ai-stylist-network
     volumes:
@@ -80,9 +76,23 @@ services:
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
       FASTAPI_URL: http://ai-service:8000
       INTERNAL_API_KEY: ${INTERNAL_API_KEY}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      MAIL_FROM: ${MAIL_FROM:-no-reply@ai-stylist.local}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-true}
+      MAIL_SMTP_STARTTLS_ENABLE: ${MAIL_SMTP_STARTTLS_ENABLE:-true}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-dummy-google-client-id}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-dummy-google-client-secret}
+      KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID:-dummy-kakao-client-id}
+      KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET:-dummy-kakao-client-secret}
+      NAVER_CLIENT_ID: ${NAVER_CLIENT_ID:-dummy-naver-client-id}
+      NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET:-dummy-naver-client-secret}
     ports:
-      - "${SPRING_PORT}:8080"
+      - "${SPRING_PORT:-8080}:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -95,24 +105,29 @@ services:
     volumes:
       - ./uploads:/app/uploads
     restart: unless-stopped
-  # # React Frontend
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #     target: development
-  #   container_name: ai-stylist-frontend
-  #   environment:
-  #     REACT_APP_API_URL: http://localhost:${SPRING_PORT}
-  #   ports:
-  #     - "${REACT_PORT}:3000"
-  #   depends_on:
-  #     - backend
-  #   networks:
-  #     - ai-stylist-network
-  #   volumes:
-  #     - ./frontend/src:/app/src
-  #     - ./frontend/public:/app/public
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: ai-stylist-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:8080
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "${REACT_PORT:-3000}:3000"
+    depends_on:
+      - backend
+    networks:
+      - ai-stylist-network
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    stdin_open: true
+    tty: true
 
 networks:
   ai-stylist-network:
