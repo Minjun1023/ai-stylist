@@ -1,13 +1,102 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pc-gradient-start: #f6f9ff;
+    --pc-gradient-end: #edf1f7;
+    --pc-accent: #3c91e6;
+    --pc-accent-strong: #2d77c7;
+    --pc-ink: #342e37;
+    --pc-panel: rgba(255, 255, 255, 0.82);
+  }
+
+  body {
+    @apply bg-gradient-to-br from-[#f6f9ff] to-[#edf1f7];
+    font-family: 'DM Sans', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    color: var(--pc-ink);
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .auth-shell {
+    @apply min-h-screen;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(60, 145, 230, 0.16), transparent 42%),
+      radial-gradient(circle at 85% 10%, rgba(52, 46, 55, 0.12), transparent 48%),
+      linear-gradient(135deg, var(--pc-gradient-start), var(--pc-gradient-end));
+  }
+
+  .font-display {
+    font-family: 'Playfair Display', 'Apple SD Gothic Neo', 'Malgun Gothic', serif;
+  }
+
+  .animate-reveal {
+    animation: pc-reveal 0.55s ease-out both;
+  }
+
+  .page-transition {
+    animation: pc-page-in 0.32s ease-out both;
+  }
+
+  .animate-float {
+    animation: pc-float 0.7s ease-out both;
+  }
+
+  @keyframes pc-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pc-float {
+    from {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-4px);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pc-page-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center h-10 px-4 py-2 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-colors duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center h-10 px-4 py-2 rounded-xl bg-white text-gray-900 border border-primary-100 hover:bg-primary-50 transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-primary-100 rounded-xl bg-white/90 text-gray-900 outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-[rgba(255,255,255,0.92)] rounded-xl shadow-[0_24px_50px_-36px_rgba(33,49,74,0.36)] border border-white/60 p-4 sm:p-5 lg:p-6 backdrop-blur-sm;
+  }
 }
