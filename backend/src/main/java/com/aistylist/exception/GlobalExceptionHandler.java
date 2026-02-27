@@ -1,5 +1,9 @@
 package com.aistylist.exception;
 
+/**
+ * com/aistylist/exception/GlobalExceptionHandler.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.dto.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -8,6 +12,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -19,26 +25,22 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 잘못된 요청으로 인한 오류 처리
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponse<?>> handleIllegalArgumentException(
             IllegalArgumentException ex, WebRequest request) {
         log.error("잘못된 요청: ", ex);
 
-        // ErrorDetails 생성
         ApiResponse.ErrorDetails error = ApiResponse.ErrorDetails.builder()
                 .code("BAD_REQUEST")
                 .detail(ex.getMessage())
                 .path(request.getDescription(false))
                 .build();
 
-        // 응답 생성
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(ex.getMessage(), error));
     }
 
-    // 가입되지 않은 계정으로 로그인 시도 시 오류 처리
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleUsernameNotFoundException(
             UsernameNotFoundException ex, WebRequest request) {
@@ -55,7 +57,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("사용자를 찾을 수 없습니다", error));
     }
 
-    // 비밀번호가 일치하지 않을 때 오류 처리
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse<?>> handleBadCredentialsException(
             BadCredentialsException ex, WebRequest request) {
@@ -69,10 +70,9 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error("인증에 실패했습니다", error));
+                .body(ApiResponse.error("이메일 또는 비밀번호가 올바르지 않습니다", error));
     }
 
-    // 입력 값이 올바르지 않을 때 오류 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationException(
             MethodArgumentNotValidException ex, WebRequest request) {
@@ -96,7 +96,69 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("입력 값이 올바르지 않습니다", error));
     }
 
-    // 서버 오류 처리
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponse<?>> handleIllegalStateException(
+            IllegalStateException ex, WebRequest request) {
+        log.error("외부 서비스 오류: ", ex);
+
+        ApiResponse.ErrorDetails error = ApiResponse.ErrorDetails.builder()
+                .code("EXTERNAL_SERVICE_ERROR")
+                .detail(ex.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(ApiResponse.error("외부 서비스 처리 중 오류가 발생했습니다", error));
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ApiResponse<?>> handleNullPointerException(
+            NullPointerException ex, WebRequest request) {
+        log.error("널 포인터 오류: ", ex);
+
+        ApiResponse.ErrorDetails error = ApiResponse.ErrorDetails.builder()
+                .code("EXTERNAL_SERVICE_ERROR")
+                .detail(ex.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(ApiResponse.error("외부 데이터 처리 중 오류가 발생했습니다", error));
+    }
+
+    @ExceptionHandler({WebClientRequestException.class, WebClientResponseException.class})
+    public ResponseEntity<ApiResponse<?>> handleWebClientException(
+            Exception ex, WebRequest request) {
+        log.error("외부 API 연동 오류: ", ex);
+
+        ApiResponse.ErrorDetails error = ApiResponse.ErrorDetails.builder()
+                .code("EXTERNAL_API_ERROR")
+                .detail(ex.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        HttpStatus status = HttpStatus.BAD_GATEWAY;
+        String message = "외부 AI API 호출에 실패했습니다";
+
+        if (ex instanceof WebClientResponseException responseException) {
+            status = HttpStatus.valueOf(responseException.getStatusCode().value());
+            String detail = responseException.getResponseBodyAsString();
+            if (detail != null && !detail.isBlank()) {
+                error = ApiResponse.ErrorDetails.builder()
+                        .code("EXTERNAL_API_ERROR")
+                        .detail(detail)
+                        .path(request.getDescription(false))
+                        .build();
+            }
+        }
+
+        return ResponseEntity
+                .status(status.is4xxClientError() || status.is5xxServerError() ? status : HttpStatus.BAD_GATEWAY)
+                .body(ApiResponse.error(message, error));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleGlobalException(
             Exception ex, WebRequest request) {

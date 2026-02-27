@@ -1,5 +1,9 @@
 package com.aistylist.security;
 
+/**
+ * com/aistylist/security/CustomUserDetailsService.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.domain.entity.User;
 import com.aistylist.domain.repository.UserRepository;
 
@@ -18,14 +22,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    // 이메일로 사용자 정보 조회
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다: " + email));
 
-        // 사용자 권한 설정
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

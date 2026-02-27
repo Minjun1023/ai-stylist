@@ -1,5 +1,9 @@
 package com.aistylist.domain.entity;
 
+/**
+ * com/aistylist/domain/entity/User.java: Backend source file for style/recommendation related features.
+ */
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,26 +24,54 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 사용자 ID
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email; // 사용자 이메일
+    private String email;
 
     @Column(nullable = false)
-    private String password; // 사용자 비밀번호
+    private String password;
 
-    @Column(length = 100)
-    private String nickname; // 사용자 닉네임
+    @Column(length = 100, nullable = false, unique = true)
+    private String nickname;
 
     @Column(name = "personal_color", length = 50)
-    private String personalColor; // 사용자 퍼스널 컬러
+    private String personalColor;
+
+    @Column(length = 20)
+    private String gender;
+
+    @Column(name = "age_group", length = 20)
+    private String ageGroup;
+
+    @Column(name = "body_type", length = 30)
+    private String bodyType;
+
+    @Column(name = "style_mood_preference", length = 30)
+    private String styleMoodPreference;
+
+    @Column(name = "style_profile_completed", nullable = false)
+    @Builder.Default
+    private Boolean styleProfileCompleted = Boolean.FALSE;
+
+    @Column(name = "personal_color_completed", nullable = false)
+    @Builder.Default
+    private Boolean personalColorCompleted = Boolean.FALSE;
+
+    @Column(name = "chat_profile_completed", nullable = false)
+    @Builder.Default
+    private Boolean chatProfileCompleted = Boolean.FALSE;
+
+    @Column(name = "style_recommendation_completed", nullable = false)
+    @Builder.Default
+    private Boolean styleRecommendationCompleted = Boolean.FALSE;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt; // 사용자 생성 시간
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt; // 사용자 수정 시간
+    private LocalDateTime updatedAt;
 
 }

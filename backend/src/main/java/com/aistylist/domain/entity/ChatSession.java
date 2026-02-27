@@ -1,5 +1,9 @@
 package com.aistylist.domain.entity;
 
+/**
+ * com/aistylist/domain/entity/ChatSession.java: Backend source file for style/recommendation related features.
+ */
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,20 +25,20 @@ public class ChatSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 채팅 세션 ID
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // 사용자
+    private User user;
 
     @Column
-    private String title; // 채팅 제목
+    private String title;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<ChatMessage> messages = new ArrayList<>(); // 채팅 메시지
+    private List<ChatMessage> messages = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt; // 생성 시간
+    private LocalDateTime createdAt;
 }

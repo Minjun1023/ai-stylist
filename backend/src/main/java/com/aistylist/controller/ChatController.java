@@ -1,5 +1,9 @@
 package com.aistylist.controller;
 
+/**
+ * com/aistylist/controller/ChatController.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.dto.chat.ChatRequest;
 import com.aistylist.dto.chat.ChatResponse;
 import com.aistylist.dto.chat.ChatSessionResponse;
@@ -22,7 +26,6 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    // 채팅 세션 목록 조회
     @GetMapping("/sessions")
     public ResponseEntity<ApiResponse<List<ChatSessionResponse>>> getSessions(Authentication authentication) {
         String email = authentication.getName();
@@ -31,7 +34,6 @@ public class ChatController {
         return ResponseEntity.ok(ApiResponse.success(sessions));
     }
 
-    // 채팅 세션 상세 조회
     @GetMapping("/sessions/{sessionId}")
     public ResponseEntity<ApiResponse<ChatSessionResponse>> getSession(
             Authentication authentication,
@@ -42,7 +44,6 @@ public class ChatController {
         return ResponseEntity.ok(ApiResponse.success(session));
     }
 
-    // 채팅
     @PostMapping
     public ResponseEntity<ApiResponse<ChatResponse>> chat(
             Authentication authentication,
@@ -53,7 +54,6 @@ public class ChatController {
         return ResponseEntity.ok(ApiResponse.success("응답이 생성되었습니다", response));
     }
 
-    // 채팅 세션 삭제
     @DeleteMapping("/sessions/{sessionId}")
     public ResponseEntity<ApiResponse<Void>> deleteSession(
             Authentication authentication,

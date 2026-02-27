@@ -1,5 +1,9 @@
 package com.aistylist.domain.entity;
 
+/**
+ * com/aistylist/domain/entity/PersonalColorResult.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.domain.converter.DiagnosisMethodConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,34 +26,33 @@ public class PersonalColorResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 퍼스널 컬러 결과 ID
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // 사용자
+    private User user;
 
     @Column(name = "color_type", nullable = false, length = 50)
-    private String colorType; // 퍼스널 컬러 타입
+    private String colorType;
 
     @Column
-    private Float confidence; // 퍼스널 컬러 신뢰도
+    private Float confidence;
 
     @Column(length = 20)
     @Convert(converter = DiagnosisMethodConverter.class)
-    private DiagnosisMethod method; // 퍼스널 컬러 진단 방법
+    private DiagnosisMethod method;
 
     @Column(name = "image_url")
-    private String imageUrl; // 퍼스널 컬러 진단 이미지 URL
+    private String imageUrl;
 
     @Column(name = "survey_data", columnDefinition = "jsonb")
     @ColumnTransformer(write = "?::jsonb")
-    private String surveyData; // 퍼스널 컬러 진단 설문 데이터
+    private String surveyData;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt; // 퍼스널 컬러 진단 생성 시간
+    private LocalDateTime createdAt;
 
-    // 진단 방법
     public enum DiagnosisMethod {
         SURVEY, IMAGE, HYBRID
     }

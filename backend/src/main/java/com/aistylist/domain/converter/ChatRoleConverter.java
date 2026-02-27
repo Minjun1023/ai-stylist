@@ -1,5 +1,9 @@
 package com.aistylist.domain.converter;
 
+/**
+ * com/aistylist/domain/converter/ChatRoleConverter.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.domain.entity.ChatMessage;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

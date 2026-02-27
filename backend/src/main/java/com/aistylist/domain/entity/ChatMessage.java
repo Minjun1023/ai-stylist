@@ -1,5 +1,9 @@
 package com.aistylist.domain.entity;
 
+/**
+ * com/aistylist/domain/entity/ChatMessage.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.domain.converter.ChatRoleConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,24 +24,23 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 메시지 ID
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", nullable = false)
-    private ChatSession session; // 채팅 세션
+    private ChatSession session;
 
     @Column(nullable = false, length = 20)
     @Convert(converter = ChatRoleConverter.class)
-    private Role role; // 메시지 역할
+    private Role role;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String content; // 메시지 내용
+    private String content;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt; // 생성 시간
+    private LocalDateTime createdAt;
 
-    // 메시지 역할
     public enum Role {
         USER,
         ASSISTANT,

@@ -1,5 +1,9 @@
 package com.aistylist.controller;
 
+/**
+ * com/aistylist/controller/UserController.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.dto.common.ApiResponse;
 import com.aistylist.dto.user.UpdateProfileRequest;
 import com.aistylist.dto.user.UserResponse;
@@ -19,7 +23,6 @@ public class UserController {
 
     private final UserService userService;
 
-    // 현재 사용자 정보 조회
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserResponse>> getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
@@ -28,7 +31,6 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    // 프로필 업데이트
     @PutMapping("/me")
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
             Authentication authentication,

@@ -1,5 +1,9 @@
 package com.aistylist.controller;
 
+/**
+ * com/aistylist/controller/PersonalColorController.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.dto.common.ApiResponse;
 import com.aistylist.dto.personalcolor.PersonalColorResponse;
 import com.aistylist.dto.personalcolor.SurveyRequest;
@@ -22,7 +26,6 @@ public class PersonalColorController {
 
     private final PersonalColorService personalColorService;
 
-    // 퍼스널 컬러 결과 조회
     @GetMapping("/results")
     public ResponseEntity<ApiResponse<List<PersonalColorResponse>>> getResults(Authentication authentication) {
         String email = authentication.getName();
@@ -31,7 +34,6 @@ public class PersonalColorController {
         return ResponseEntity.ok(ApiResponse.success(results));
     }
 
-    // 설문 기반 퍼스널 컬러 진단
     @PostMapping("/survey")
     public ResponseEntity<ApiResponse<PersonalColorResponse>> diagnoseBySurvey(
             Authentication authentication,
@@ -42,7 +44,6 @@ public class PersonalColorController {
         return ResponseEntity.ok(ApiResponse.success("진단이 완료되었습니다", response));
     }
 
-    // 이미지 기반 퍼스널 컬러 진단
     @PostMapping("/image")
     public ResponseEntity<ApiResponse<PersonalColorResponse>> diagnoseByImage(
             Authentication authentication,
