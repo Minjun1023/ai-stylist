@@ -1,11 +1,16 @@
 package com.aistylist.dto.personalcolor;
 
+/**
+ * com/aistylist/dto/personalcolor/PersonalColorResponse.java: Backend source file for style/recommendation related features.
+ */
+
 import com.aistylist.client.dto.PersonalColorAnalysisDto;
 import com.aistylist.domain.entity.PersonalColorResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,13 +21,24 @@ import java.util.List;
 @AllArgsConstructor
 public class PersonalColorResponse {
 
-    private Long id; // ID
-    private String colorType; // 컬러 타입
-    private Float confidence; // 신뢰도
-    private PersonalColorResult.DiagnosisMethod method; // 진단 방법
-    private String imageUrl; // 이미지 URL
-    private String description; // 퍼스널 컬러 설명
-    private PersonalColorAnalysisDto.ColorPaletteDto palette; // 추천 팔레트
-    private List<String> stylingTips; // 스타일링 팁
-    private LocalDateTime createdAt; // 생성 시간
+    private Long id;
+    private String colorType;
+    private Float confidence;
+    private PersonalColorResult.DiagnosisMethod method;
+    private String imageUrl;
+    private String description;
+    private PersonalColorAnalysisDto.ColorPaletteDto palette;
+    private List<String> stylingTips;
+    private List<String> evidence;
+    private Boolean needsFollowUp;
+    private List<FollowUpQuestion> followUpQuestions;
+    private LocalDateTime createdAt;
+
+    @Getter
+    @Setter
+    public static class FollowUpQuestion {
+        private String id;
+        private String question;
+        private List<String> options;
+    }
 }

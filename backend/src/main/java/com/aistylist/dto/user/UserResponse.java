@@ -1,5 +1,9 @@
 package com.aistylist.dto.user;
 
+/**
+ * com/aistylist/dto/user/UserResponse.java: Backend source file for style/recommendation related features.
+ */
+
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -14,9 +18,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    private Long id; // 사용자 ID
-    private String email; // 이메일
-    private String nickname; // 닉네임
-    private String personalColor; // 퍼스널컬러
-    private LocalDateTime createdAt; // 생성일
+    private Long id;
+    private String email;
+    private String nickname;
+    private String personalColor;
+    private String gender;
+    private String ageGroup;
+    private String bodyType;
+    private String styleMoodPreference;
+    private Boolean styleProfileCompleted;
+    private Boolean personalColorCompleted;
+    private Boolean chatProfileCompleted;
+    private Boolean styleRecommendationCompleted;
+    private LocalDateTime createdAt;
 }

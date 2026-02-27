@@ -1,7 +1,7 @@
 package com.aistylist.dto.auth;
 
 /**
- * com/aistylist/dto/auth/LoginRequest.java: Backend source file for style/recommendation related features.
+ * com/aistylist/dto/auth/ForgotPasswordRequest.java: Backend source file for style/recommendation related features.
  */
 
 import jakarta.validation.constraints.Email;
@@ -15,13 +15,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class ForgotPasswordRequest {
 
     @NotBlank(message = "이메일은 필수입니다")
     @Email(message = "올바른 이메일 형식이 아닙니다")
     private String email;
-
-    @NotBlank(message = "비밀번호는 필수입니다")
-    private String password;
-
 }

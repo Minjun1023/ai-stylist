@@ -1,8 +1,13 @@
 package com.aistylist.client.dto;
 
+/**
+ * com/aistylist/client/dto/PersonalColorAnalysisDto.java: Backend source file for style/recommendation related features.
+ */
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.Map;
 import java.util.List;
 
 @Getter
@@ -12,33 +17,41 @@ import java.util.List;
 @Builder
 public class PersonalColorAnalysisDto {
 
-    @JsonProperty("color_type") // 컬러 타입
+    @JsonProperty("color_type")
     private String colorType;
 
-    private Float confidence; // 신뢰도
+    private Float confidence;
 
-    private String description; // 설명
+    private String description;
 
-    private ColorPaletteDto palette; // 컬러 팔레트
+    private ColorPaletteDto palette;
 
-    @JsonProperty("styling_tips") // 스타일 팁
+    @JsonProperty("styling_tips")
     private List<String> stylingTips;
 
-    @JsonProperty("image_url") // 이미지 URL
+    @JsonProperty("image_url")
     private String imageUrl;
+
+    private List<String> evidence;
+
+    @JsonProperty("needs_follow_up")
+    private Boolean needsFollowUp;
+
+    @JsonProperty("follow_up_questions")
+    private List<Map<String, Object>> followUpQuestions;
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ColorPaletteDto {
-        @JsonProperty("primary_colors") // 주요 컬러
+        @JsonProperty("primary_colors")
         private List<String> primaryColors;
 
-        @JsonProperty("secondary_colors") // 보조 컬러
+        @JsonProperty("secondary_colors") 
         private List<String> secondaryColors;
 
-        @JsonProperty("avoid_colors") // 피하는 컬러
+        @JsonProperty("avoid_colors") 
         private List<String> avoidColors;
     }
 }

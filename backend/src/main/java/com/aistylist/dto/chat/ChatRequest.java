@@ -1,5 +1,9 @@
 package com.aistylist.dto.chat;
 
+/**
+ * com/aistylist/dto/chat/ChatRequest.java: Backend source file for style/recommendation related features.
+ */
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +17,9 @@ import lombok.Setter;
 public class ChatRequest {
 
     @NotBlank(message = "메시지는 필수입니다")
-    private String message; // 메시지
+    private String message;
 
-    private Long sessionId; // 세션 ID
+    private String season;
+
+    private Long sessionId;
 }

@@ -1,5 +1,9 @@
 package com.aistylist.client.dto;
 
+/**
+ * com/aistylist/client/dto/StyleRecommendDto.java: Backend source file for style/recommendation related features.
+ */
+
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +15,7 @@ import java.util.List;
 @Builder
 public class StyleRecommendDto {
 
-    private String recommendation; // 추천
-    private List<Object> items; // 아이템
-    private List<String> sources; // 소스
+    private String recommendation;
+    private List<Object> items;
+    private List<String> sources;
 }

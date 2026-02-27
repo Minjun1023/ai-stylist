@@ -1,3 +1,6 @@
+/**
+ * WebClientConfig defines shared WebClient beans and timeout tuning for external API calls.
+ */
 package com.aistylist.config;
 
 import io.netty.channel.ChannelOption;
@@ -22,21 +25,31 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class WebClientConfig {
 
+    /**
+     * FastAPI URL
+     */
     @Value("${fastapi.url}")
     private String fastApiUrl;
-
+    /**
+     * FastAPI 인터널 API 키
+     */
     @Value("${fastapi.internal-api-key}")
     private String internalApiKey;
 
     @Bean
     public WebClient fastApiWebClient() {
+        /**
+         * HTTP 클라이언트 설정
+         */
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                 .responseTimeout(Duration.ofSeconds(30))
                 .doOnConnected(conn -> conn
                         .addHandlerLast(new ReadTimeoutHandler(30, TimeUnit.SECONDS))
                         .addHandlerLast(new WriteTimeoutHandler(30, TimeUnit.SECONDS)));
-
+        /**
+         * WebClient 생성
+         */
         return WebClient.builder()
                 .baseUrl(fastApiUrl)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
@@ -47,6 +60,9 @@ public class WebClientConfig {
                 .build();
     }
 
+    /**
+     * 요청 로깅
+     */
     private ExchangeFilterFunction logRequest() {
         return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
             log.debug("FastAPI Request: {} {}", clientRequest.method(), clientRequest.url());
@@ -54,6 +70,9 @@ public class WebClientConfig {
         });
     }
 
+    /**
+     * 응답 로깅
+     */
     private ExchangeFilterFunction logResponse() {
         return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
             log.debug("FastAPI Response: {}", clientResponse.statusCode());

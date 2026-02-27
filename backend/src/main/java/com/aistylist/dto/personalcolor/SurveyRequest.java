@@ -1,5 +1,9 @@
 package com.aistylist.dto.personalcolor;
 
+/**
+ * com/aistylist/dto/personalcolor/SurveyRequest.java: Backend source file for style/recommendation related features.
+ */
+
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +19,5 @@ import java.util.Map;
 public class SurveyRequest {
 
     @NotEmpty(message = "설문 답변은 필수입니다")
-    private Map<String, String> answers; // 설문 답변
+    private Map<String, String> answers;
 }

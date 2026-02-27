@@ -1,5 +1,9 @@
 package com.aistylist.dto.chat;
 
+/**
+ * com/aistylist/dto/chat/ChatResponse.java: Backend source file for style/recommendation related features.
+ */
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatResponse {
 
-    private Long sessionId; // 세션 ID
-    private Long messageId; // 메시지 ID
-    private String role; // 역할
-    private String content; // 내용
-    private List<String> sources; // 소스
-    private LocalDateTime createdAt; // 생성 시간
+    private Long sessionId;
+    private Long messageId;
+    private String role;
+    private String content;
+    private List<String> sources;
+    private List<Object> items;
+    private LocalDateTime createdAt;
 }

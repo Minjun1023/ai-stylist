@@ -1,5 +1,9 @@
 package com.aistylist.dto.style;
 
+/**
+ * com/aistylist/dto/style/StyleRecommendResponse.java: Backend source file for style/recommendation related features.
+ */
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +19,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StyleRecommendResponse {
 
-    private String recommendation; // 추천
-    private List<Object> items; // 아이템
-    private List<String> sources; // 소스
-    private String personalColor; // 퍼스널 컬러
+    private String recommendation;
+    private List<Object> items;
+    private List<String> sources;
+    private String personalColor;
 }

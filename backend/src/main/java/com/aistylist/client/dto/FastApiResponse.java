@@ -1,5 +1,9 @@
 package com.aistylist.client.dto;
 
+/**
+ * com/aistylist/client/dto/FastApiResponse.java: Backend source file for style/recommendation related features.
+ */
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FastApiResponse<T> {
 
-    private boolean success; // 성공 여부
-    private String message; // 메시지
-    private T data; // 데이터
-    private String timestamp; // 시간
+    private boolean success;
+    private String message;
+    private T data;
+    private String timestamp;
 }
