@@ -1,35 +1,27 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
-
-# 설정 클래스
+# 환경 변수 설정
 class Settings(BaseSettings):
-    # App
     app_name: str = "AI Stylist Service"
     debug: bool = True
     
-    # Database
-    database_url: str
+    database_url: str # 데이터베이스 URL
     
-    # OpenAI
-    openai_api_key: str
+    openai_api_key: str # OpenAI API 키
+
+    internal_api_key: str # 내부 API 키
     
-    # Internal API Security
-    internal_api_key: str
-    
-    # Model Settings
-    embedding_model: str = "text-embedding-3-small"
-    chat_model: str = "gpt-4o-mini"
-    vision_model: str = "gpt-4o"
-    
+    embedding_model: str = "text-embedding-3-small" # 임베딩 모델
+    chat_model: str = "gpt-4o-mini" # 채팅 모델
+    vision_model: str = "gpt-4o" # 비전 모델
+
     class Config:
-        env_file = ".env"
+        env_file = ".env" # 환경 변수 파일
 
 
-# 설정 캐시
-@lru_cache
-def get_settings() -> Settings:
+@lru_cache # 캐시
+def get_settings() -> Settings: # 설정 가져오기
     return Settings()
 
 
-# 설정 인스턴스
-settings = get_settings()
+settings = get_settings() # 설정

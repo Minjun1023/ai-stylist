@@ -2,11 +2,10 @@ from fastapi import APIRouter
 from app.models.common import ApiResponse
 
 router = APIRouter()
-
-# /api/health
+# 헬스 체크
 @router.get("")
 async def health_check():
-    # 상태 확인
+    # 응답 생성
     return ApiResponse.success_response(
         data={
             "status": "UP",

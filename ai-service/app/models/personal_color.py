@@ -1,23 +1,23 @@
 from pydantic import BaseModel
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Any
 from enum import Enum
 
 # 퍼스널 컬러 타입
 class PersonalColorType(str, Enum):
-    SPRING_WARM = "spring_warm" # 봄 웜톤
-    SUMMER_COOL = "summer_cool" # 여름 쿨톤
-    AUTUMN_WARM = "autumn_warm" # 가을 웜톤
-    WINTER_COOL = "winter_cool" # 겨울 쿨톤
+    SPRING_WARM = "spring_warm" # 봄 웜
+    SUMMER_COOL = "summer_cool" # 여름 쿨
+    AUTUMN_WARM = "autumn_warm" # 가을 웜
+    WINTER_COOL = "winter_cool" # 겨울 쿨
 
 # 컬러 팔레트
 class ColorPalette(BaseModel):
-    primary_colors: List[str] # 추천 컬러
-    secondary_colors: List[str] # 서브 컬러
-    avoid_colors: List[str] # 비추천 컬러
+    primary_colors: List[str] # 주요 색상
+    secondary_colors: List[str] # 보조 색상
+    avoid_colors: List[str] # 피해야 할 색상
 
 # 설문 분석 요청
 class SurveyAnalysisRequest(BaseModel):
-    answers: Dict[str, str] # 설문 답변
+    answers: Dict[str, str] # 답변
 
 # 이미지 분석 요청
 class ImageAnalysisRequest(BaseModel):
@@ -31,3 +31,6 @@ class PersonalColorAnalysisResponse(BaseModel):
     description: str # 설명
     palette: ColorPalette # 컬러 팔레트
     styling_tips: List[str] # 스타일링 팁
+    evidence: List[str] | None = None # 증거
+    needs_follow_up: bool = False # 추가 질문 필요 여부
+    follow_up_questions: Optional[List[Dict[str, Any]]] = None # 추가 질문
