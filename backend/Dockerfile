@@ -5,7 +5,7 @@ COPY src ./src
 RUN gradle build -x test --no-daemon
 
 
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jre AS runtime
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
